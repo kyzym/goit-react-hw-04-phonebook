@@ -16,15 +16,14 @@ import initialContacts from './data/contacts.json';
 const LS_KEY = 'savedContacts';
 
 export const App = () => {
-  const [contacts, setContacts] = useState(initialContacts);
+  const savedContacts = JSON.parse(localStorage.getItem(LS_KEY));
+
+  const [contacts, setContacts] = useState(savedContacts ?? initialContacts);
   const [filter, setFilter] = useState('');
 
   useEffect(() => {
-    const savedContacts = JSON.parse(localStorage.getItem(LS_KEY));
-    if (savedContacts) {
-      setContacts(savedContacts);
-    }
-  }, []);
+    localStorage.setItem(LS_KEY, JSON.stringify(contacts));
+  }, [contacts]);
 
   const addContact = ({ name, number }) => {
     if (contacts.some(contact => contact.name === name)) {
@@ -45,14 +44,10 @@ export const App = () => {
     name.toLowerCase().includes(normalizedFilter)
   );
 
-  const changeFilter = e => {
-    const { value } = e.target;
-    setFilter(value);
-  };
+  const changeFilter = e => setFilter(e.target.value);
 
-  const deleteContact = contactId => {
+  const deleteContact = contactId =>
     setContacts(contacts => contacts.filter(({ id }) => id !== contactId));
-  };
 
   return (
     <Box
