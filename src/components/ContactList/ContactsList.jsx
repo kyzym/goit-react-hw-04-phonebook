@@ -4,7 +4,7 @@ import { PropTypes } from 'prop-types';
 import { BsPhone } from 'react-icons/bs';
 
 export const ContactsList = ({ contacts, onDeleteContact }) => (
-  <Box as="ul" width="31%">
+  <Box as="ul" width="430px">
     {contacts.map(({ id, name, number }) => (
       <Contact key={id}>
         <BsPhone />
